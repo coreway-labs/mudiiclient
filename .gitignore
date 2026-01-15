@@ -1,6 +1,8 @@
 build
+bin
 .idea
 *.html
+*.code-workspace
 config.txt*
 out
 .gradle

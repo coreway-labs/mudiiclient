@@ -2,8 +2,8 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 11
+targetCompatibility = 11
 
 mainClassName = 'gui3.Launcher'
 
@@ -13,8 +13,8 @@ repositories {
 
 dependencies {
     // such ancient dependencies!
-    testCompile files('lib/test/junit.jar')
-    testCompile files('lib/test/jmock-1.1.0.jar')
+    testImplementation files('lib/test/junit.jar')
+    testImplementation files('lib/test/jmock-1.1.0.jar')
 }
 
 jar {
