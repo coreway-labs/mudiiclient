@@ -1,15 +1,42 @@
 package mudbot;
 
+import backend2.CommandSender;
 import io.listener.CodeListener;
 import io.listener.TextListener;
 import io.listener.StateListener;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MudbotBridge implements CodeListener, TextListener, StateListener {
 
     private boolean playing;
+    private CommandSender commandSender;
+
+    public void setCommandSender(CommandSender commandSender) {
+        this.commandSender = commandSender;
+        startStdinReader();
+    }
+
+    private void startStdinReader() {
+        Thread stdinThread = new Thread(() -> {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    if (commandSender != null) {
+                        commandSender.send(line + "\r");
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("stdin reader error: " + e.getMessage());
+            }
+        }, "MudbotBridge-stdin");
+        stdinThread.setDaemon(true);
+        stdinThread.start();
+    }
 
     private static final Map<String, String> SEMANTIC_TAGS = new HashMap<>();
 
@@ -40,6 +67,9 @@ public class MudbotBridge implements CodeListener, TextListener, StateListener {
         // Input/output
         SEMANTIC_TAGS.put("<01>", "<PROMPT>");
         SEMANTIC_TAGS.put("<0102>", "<INPUT>");
+
+        // End/close marker
+        SEMANTIC_TAGS.put("<00>", "</>");
 
         // System messages
         SEMANTIC_TAGS.put("<1203>", "<SYSTEM_HEADER>");

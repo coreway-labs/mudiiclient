@@ -227,6 +227,7 @@ public class Launcher {
 			mudClientFilter.addTextListener(mudbotBridge);
 			mudClientFilter.addCodeListener(mudbotBridge);
 			state.addStateListener(mudbotBridge);
+			mudbotBridge.setCommandSender(io);
 		}
 
 		configurationFrame.setParent(mainFrame);
