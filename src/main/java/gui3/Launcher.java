@@ -32,6 +32,7 @@ import backend2.RobustInputOutput;
 import backend2.TriggerConfiguration;
 import domain.Configuration;
 import domain.State;
+import mudbot.MudbotBridge;
 
 
 public class Launcher {
@@ -219,7 +220,15 @@ public class Launcher {
 			mudClientFilter.addCodeListener(logger);
 			mudClientModeStyle.addStyleListener(logger);
 		}
-		
+
+		// MudbotBridge - enabled via -Dmudbot system property
+		if (System.getProperty("mudbot") != null) {
+			MudbotBridge mudbotBridge = new MudbotBridge();
+			mudClientFilter.addTextListener(mudbotBridge);
+			mudClientFilter.addCodeListener(mudbotBridge);
+			state.addStateListener(mudbotBridge);
+		}
+
 		configurationFrame.setParent(mainFrame);
 		configurationFrame.setConfiguration(configuration);
 		configurationFrame.setColourHelper(colourHelper);
