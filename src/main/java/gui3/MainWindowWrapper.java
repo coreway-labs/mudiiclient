@@ -38,7 +38,7 @@ public class MainWindowWrapper implements ComponentWrapper, FontConsumer,
 				super.setSize(Math.max(width, 2*128), Math.max(height, 2*128));
 			}
 		};
-		component.setTitle("mudiiclient - "+Launcher.VERSION);
+		component.setTitle("mudiiclient - "+Launcher.VERSION+" (modified by Coreway Labs)");
 //		try {
 //			component.setIconImage(new ImageIcon(getClass().getResource("/phdot.gif")).getImage());
 //		} catch (Exception e) {
