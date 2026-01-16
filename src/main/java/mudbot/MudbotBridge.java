@@ -99,12 +99,12 @@ public class MudbotBridge implements CodeListener, TextListener, StateListener {
 
     @Override
     public void onCode(String code) {
-        if (playing) System.out.print(toSemanticTag(code));
+        System.out.print(playing ? toSemanticTag(code) : code);
     }
 
     @Override
     public void onText(String text) {
-        if (playing) System.out.print(text);
+        System.out.print(text);
     }
 
     @Override
