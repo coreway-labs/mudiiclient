@@ -202,9 +202,14 @@ public class Launcher {
 		textSanitizer.addTextListener(playerSensor);
 		textSanitizer.addCodeListener(playerSensor);
 		
-		if (configuration.getInt(Configuration.KEY_LOGGING, Configuration.DEFAULT_LOGGING) == 1) {
+		// Logging can be disabled via -Dlogging=0
+		int loggingEnabled = Integer.parseInt(System.getProperty("logging",
+			String.valueOf(configuration.getInt(Configuration.KEY_LOGGING, Configuration.DEFAULT_LOGGING))));
+		if (loggingEnabled == 1) {
 			String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
-			String logDirectory = configuration.getSetting(Configuration.KEY_LOG_DIRECTORY, configuration.getDefaultLogDirectory());
+			// Log directory can be overridden via -Dlogdir=/path
+			String logDirectory = System.getProperty("logdir",
+				configuration.getSetting(Configuration.KEY_LOG_DIRECTORY, configuration.getDefaultLogDirectory()));
 			String filename = date + "-" + host + ".html";
 			if (logDirectory.isEmpty()) {
 				logger.setFilename(filename);
@@ -397,7 +402,7 @@ public class Launcher {
 			}
 		}
 		
-		if (configuration.getInt(Configuration.KEY_LOGGING, Configuration.DEFAULT_LOGGING) == 1) {
+		if (loggingEnabled == 1) {
 			logger.init();
 		}
 		
