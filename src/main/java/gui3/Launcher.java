@@ -424,10 +424,20 @@ public class Launcher {
 			if (System.getProperty("headless", "false").equals("false")) {
 				loginWrapper.loginAction();
 			} else {
-				loginHandler.setSystemUser(configuration.getSetting(host + ".system.user", "mud"));
-				loginHandler.setSystemPassword(configuration.getSetting(host + ".system.password", ""));
-				loginHandler.setAccountUser(configuration.getSetting(host+".account.user", ""));
-				loginHandler.setAccountPassword(configuration.getSetting(host+".account.password", ""));
+				// Credentials can be overridden via -Dsystemuser, -Daccountuser, -Daccountpassword
+				// Use -Dsystemuser=mudguest for guest login (no account needed)
+				String systemUser = System.getProperty("systemuser",
+					configuration.getSetting(host + ".system.user", "mud"));
+				String systemPassword = System.getProperty("systempassword",
+					configuration.getSetting(host + ".system.password", ""));
+				String accountUser = System.getProperty("accountuser",
+					configuration.getSetting(host + ".account.user", ""));
+				String accountPassword = System.getProperty("accountpassword",
+					configuration.getSetting(host + ".account.password", ""));
+				loginHandler.setSystemUser(systemUser);
+				loginHandler.setSystemPassword(systemPassword);
+				loginHandler.setAccountUser(accountUser);
+				loginHandler.setAccountPassword(accountPassword);
 				loginHandler.login();
 			}
 		}
